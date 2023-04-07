@@ -1,0 +1,99 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "TelemedicineContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Entities",
+   "ProjectRootNamespace": "DAL",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[admin]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[appointment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[attachment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[device_reading]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[doc_attacment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[doc_conclusion]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[doctor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[followup]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[medical_device]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[medical_record]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[message]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[patient]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[services]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[test]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[test_attachment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[tests_result]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "DESKTOP-M4G6NH3.Telemedicine",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
