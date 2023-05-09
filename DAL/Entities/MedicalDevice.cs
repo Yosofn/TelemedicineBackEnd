@@ -21,7 +21,7 @@ namespace DAL.Entities
         [Column("device_number")]
         public int DeviceNumber { get; set; }
         [Column("date")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         [Required]
         [Column("username")]
         [StringLength(45)]
@@ -30,6 +30,12 @@ namespace DAL.Entities
         [Column("password")]
         [StringLength(45)]
         public string Password { get; set; }
+        [Column("profileStatus")]
+        public int? ProfileStatus { get; set; }
+        [Required]
+        [StringLength(50)]
+        [Unicode(false)]
+        public string DeviceName { get; set; }
 
         [InverseProperty("Device")]
         public virtual ICollection<DeviceReading> DeviceReadings { get; set; }

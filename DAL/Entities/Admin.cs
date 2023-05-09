@@ -14,13 +14,11 @@ namespace DAL.Entities
         public Admin()
         {
             Appointments = new HashSet<Appointment>();
-            Doctors = new HashSet<Doctor>();
             Services = new HashSet<Service>();
         }
 
         [Key]
-        [Column("admin_id")]
-        public int AdminId { get; set; }
+        public int Id { get; set; }
         [Required]
         [Column("username")]
         [Unicode(false)]
@@ -51,16 +49,15 @@ namespace DAL.Entities
         [StringLength(6)]
         [Unicode(false)]
         public string Gender { get; set; }
-        [Column("profile_picture")]
-        [Unicode(false)]
-        public string ProfilePicture { get; set; }
+        [Column("profile_picture", TypeName = "image")]
+        public byte[] ProfilePicture { get; set; }
         [Column("profile_status")]
         public int ProfileStatus { get; set; }
+        [Column("national_id")]
+        public long? NationalId { get; set; }
 
         [InverseProperty("Admin")]
         public virtual ICollection<Appointment> Appointments { get; set; }
-        [InverseProperty("Admin")]
-        public virtual ICollection<Doctor> Doctors { get; set; }
         [InverseProperty("Admin")]
         public virtual ICollection<Service> Services { get; set; }
     }

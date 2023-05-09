@@ -13,22 +13,14 @@ namespace DAL.Entities
     public partial class DocAttacment
     {
         [Key]
-        [Column("attach_id")]
-        public int AttachId { get; set; }
-        [Column("attachments")]
-        [StringLength(45)]
-        public string Attachments { get; set; }
-        [Required]
+        public int Id { get; set; }
         [Column("type")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string Type { get; set; }
-        [Required]
-        [Column("path")]
-        public string Path { get; set; }
-        [Column("working_hours")]
-        public DateTime WorkingHours { get; set; }
         [Column("doc_id")]
         public int? DocId { get; set; }
+        [Column("file", TypeName = "image")]
+        public byte[] File { get; set; }
 
         [ForeignKey("DocId")]
         [InverseProperty("DocAttacments")]

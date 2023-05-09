@@ -6,7 +6,7 @@
    "FilterSchemas": false,
    "IncludeConnectionString": true,
    "ModelNamespace": null,
-   "OutputContextPath": null,
+   "OutputContextPath": "Context",
    "OutputPath": "Entities",
    "ProjectRootNamespace": "DAL",
    "Schemas": null,

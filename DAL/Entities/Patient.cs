@@ -23,7 +23,7 @@ namespace DAL.Entities
         [Column("id")]
         public int Id { get; set; }
         [Column("national_id")]
-        public int NationalId { get; set; }
+        public long? NationalId { get; set; }
         [Required]
         [Column("username")]
         [StringLength(50)]
@@ -72,9 +72,8 @@ namespace DAL.Entities
         [StringLength(10)]
         [Unicode(false)]
         public string MaritalStatus { get; set; }
-        [Column("profile_picture")]
-        [Unicode(false)]
-        public string ProfilePicture { get; set; }
+        [Column("profile_picture", TypeName = "image")]
+        public byte[] ProfilePicture { get; set; }
 
         [InverseProperty("Patient")]
         public virtual ICollection<Appointment> Appointments { get; set; }

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 namespace DAL.Entities
 {
     [Table("doctor")]
-    [Index("NationalId", Name = "UQ_doctor_national_id", IsUnique = true)]
     [Index("Username", Name = "UQ_doctor_username", IsUnique = true)]
     public partial class Doctor
     {
@@ -22,10 +21,9 @@ namespace DAL.Entities
         }
 
         [Key]
-        [Column("doctor_id")]
-        public int DoctorId { get; set; }
+        public int Id { get; set; }
         [Column("national_id")]
-        public int NationalId { get; set; }
+        public long? NationalId { get; set; }
         [Required]
         [Column("username")]
         [StringLength(50)]
@@ -56,14 +54,10 @@ namespace DAL.Entities
         [StringLength(50)]
         [Unicode(false)]
         public string Lname { get; set; }
-        [Required]
         [Column("education")]
-        [StringLength(50)]
+        [StringLength(100)]
         [Unicode(false)]
         public string Education { get; set; }
-        [Required]
-        [Column("profile_picture", TypeName = "text")]
-        public string ProfilePicture { get; set; }
         [Column("profile_status")]
         public int ProfileStatus { get; set; }
         [Required]
@@ -82,13 +76,12 @@ namespace DAL.Entities
         [Column("doctor_status")]
         public int DoctorStatus { get; set; }
         [Column("submission_date")]
-        public DateTime SubmissionDate { get; set; }
+        public DateTime? SubmissionDate { get; set; }
         [Column("admin_id")]
         public int AdminId { get; set; }
+        [Column("profile_picture", TypeName = "image")]
+        public byte[] ProfilePicture { get; set; }
 
-        [ForeignKey("AdminId")]
-        [InverseProperty("Doctors")]
-        public virtual Admin Admin { get; set; }
         [InverseProperty("Doc")]
         public virtual ICollection<Appointment> Appointments { get; set; }
         [InverseProperty("Doc")]

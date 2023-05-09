@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DAL.Entities;
 
-namespace DAL.Entities
+namespace DAL.Context
 {
     public partial class TelemedicineContext : DbContext
     {
@@ -39,8 +40,8 @@ namespace DAL.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Telemedicine;Integrated Security=True");
+                optionsBuilder.UseSqlServer("MedconnectionContext");
+
             }
         }
 
@@ -119,15 +120,6 @@ namespace DAL.Entities
                     .HasForeignKey(d => d.RecordId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("medical record receive prescription");
-            });
-
-            modelBuilder.Entity<Doctor>(entity =>
-            {
-                entity.HasOne(d => d.Admin)
-                    .WithMany(p => p.Doctors)
-                    .HasForeignKey(d => d.AdminId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_doctor_admin");
             });
 
             modelBuilder.Entity<Followup>(entity =>
