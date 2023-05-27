@@ -11,7 +11,6 @@ namespace DAL.Entities
     [Table("appointment")]
     [Index("AdminId", Name = "admin control appointment_idx")]
     [Index("FollowupId", Name = "appointment has many followup_idx")]
-    [Index("DocId", Name = "doctors reschudle appointments_idx")]
     [Index("PatientId", Name = "patient book an appointment_idx")]
     public partial class Appointment
     {
@@ -32,15 +31,6 @@ namespace DAL.Entities
         public string Place { get; set; }
         [Column("patient_id")]
         public int PatientId { get; set; }
-        [Required]
-        [Column("price")]
-        [StringLength(10)]
-        [Unicode(false)]
-        public string Price { get; set; }
-        [Column("new_date", TypeName = "datetime")]
-        public DateTime? NewDate { get; set; }
-        [Column("doc_id")]
-        public int DocId { get; set; }
         [Column("status")]
         public int Status { get; set; }
         [Column("booking_receipt")]
@@ -48,13 +38,19 @@ namespace DAL.Entities
         [Column("followup_id")]
         public int FollowupId { get; set; }
         [Column("admin_id")]
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; }
+        [Column("scheduale_Id")]
+        public int? SchedualeId { get; set; }
+        [Column("doc_id")]
+        public int? DocId { get; set; }
+        [Column("end_time")]
+        public TimeSpan? EndTime { get; set; }
 
         [ForeignKey("AdminId")]
         [InverseProperty("Appointments")]
         public virtual Admin Admin { get; set; }
         [ForeignKey("DocId")]
-        [InverseProperty("Appointments")]
+        [InverseProperty("AppointmentsNavigation")]
         public virtual Doctor Doc { get; set; }
         [ForeignKey("FollowupId")]
         [InverseProperty("Appointments")]
@@ -62,5 +58,8 @@ namespace DAL.Entities
         [ForeignKey("PatientId")]
         [InverseProperty("Appointments")]
         public virtual Patient Patient { get; set; }
+        [ForeignKey("SchedualeId")]
+        [InverseProperty("Appointments")]
+        public virtual TempDoctorSchedule Scheduale { get; set; }
     }
 }

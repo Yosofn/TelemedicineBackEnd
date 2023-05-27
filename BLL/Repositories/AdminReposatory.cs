@@ -21,21 +21,15 @@ namespace BLL.Repositories
         _context=context;
         }
 
-        public ApprovedResponse ApproveDoctor(int doctorId, int  doctorStatus)
+        public ApprovedResponse ApproveDoctor(ApproveDoctorDTO approveDoctor)
         {
-            var doctor = _context.Doctors.Find(doctorId);
+            var doctor = _context.Doctors.Find(approveDoctor.DocId);
 
-            //if (doctor == null)
-            //{
-            //    return notF;
-            //}
-
-            doctor.DoctorStatus = doctorStatus;
-
-
+            doctor.AdminId= approveDoctor.AdminId;
+            doctor.DoctorStatus = approveDoctor.DoctorStatus;
             _context.SaveChanges();
 
-            if (doctor.DoctorStatus == 2)
+           if (doctor.DoctorStatus == 2)
             {
                 doctor.ProfileStatus = 2;
                 _context.SaveChanges();
@@ -43,6 +37,21 @@ namespace BLL.Repositories
             }
 
             return new ApprovedResponse { Accepted = false };
+        }
+
+
+
+        public ApprovedResponse ApproveBooking(AppointmentDTO approvebooking)
+        {
+            var appointment = _context.Appointments.Find(approvebooking.Id);
+
+            appointment.AdminId = approvebooking.AdminId;
+            appointment.Status = approvebooking.Status;
+            _context.SaveChanges();
+
+      
+                return new ApprovedResponse { Accepted = true };
+ 
         }
 
         public async Task<Admin> GetAdminData(UserInformationDTO userInformation)

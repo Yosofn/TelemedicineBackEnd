@@ -14,10 +14,10 @@ namespace BLL.Interfaces
     {
         Task JoinOurTeam(JoinOurTeamDTO doctor);
         Task<Doctor> GetDoctorData(UserInformationDTO userInformation);
-         Task<DocAttacment> AddDocWorkHours(DoctorSchedualeDTO docAttacment);
 
          Task<DocAttacment> AddDocAttachment(DoctorFilesDTO docAttacment);
 
+        Task RateDoctor(int doc_Id, int stars);
 
     }
 }

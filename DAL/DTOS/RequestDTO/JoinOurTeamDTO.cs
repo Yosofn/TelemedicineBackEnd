@@ -26,12 +26,10 @@ namespace DAL.DTOS.RequestDTO
         [StringLength(50)]
         [Unicode(false)]
         public string? Password { get; set; }
-        [Required]
         [Column("address")]
         [StringLength(100)]
         [Unicode(false)]
         public string? Address { get; set; }
-        [Required]
         [Column("phone")]
         [StringLength(50)]
         [Unicode(false)]
@@ -70,10 +68,8 @@ namespace DAL.DTOS.RequestDTO
         public string? Description { get; set; }
         [Column("doctor_status")]
         public int DoctorStatus { get; set; }
+
         [Column("submission_date")]
         public DateTime? SubmissionDate { get; set; }
-        [Column("admin_id")]
-        public int AdminId { get; set; }
-
     }
 }

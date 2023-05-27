@@ -14,9 +14,12 @@ namespace DAL.Entities
         public Patient()
         {
             Appointments = new HashSet<Appointment>();
+            Diagnoses = new HashSet<Diagnosis>();
             Followups = new HashSet<Followup>();
             MedicalRecords = new HashSet<MedicalRecord>();
+            Reports = new HashSet<Report>();
             Tests = new HashSet<Test>();
+            Treatments = new HashSet<Treatment>();
         }
 
         [Key]
@@ -78,10 +81,16 @@ namespace DAL.Entities
         [InverseProperty("Patient")]
         public virtual ICollection<Appointment> Appointments { get; set; }
         [InverseProperty("Patient")]
+        public virtual ICollection<Diagnosis> Diagnoses { get; set; }
+        [InverseProperty("Patient")]
         public virtual ICollection<Followup> Followups { get; set; }
         [InverseProperty("Patient")]
         public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
         [InverseProperty("Patient")]
+        public virtual ICollection<Report> Reports { get; set; }
+        [InverseProperty("Patient")]
         public virtual ICollection<Test> Tests { get; set; }
+        [InverseProperty("Patient")]
+        public virtual ICollection<Treatment> Treatments { get; set; }
     }
 }

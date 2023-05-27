@@ -14,10 +14,11 @@ namespace DAL.Entities
     {
         public Doctor()
         {
-            Appointments = new HashSet<Appointment>();
+            AppointmentsNavigation = new HashSet<Appointment>();
             DocAttacments = new HashSet<DocAttacment>();
             DocConclusions = new HashSet<DocConclusion>();
             Followups = new HashSet<Followup>();
+            TempDoctorSchedules = new HashSet<TempDoctorSchedule>();
         }
 
         [Key]
@@ -34,14 +35,12 @@ namespace DAL.Entities
         [StringLength(50)]
         [Unicode(false)]
         public string Password { get; set; }
-        [Required]
         [Column("address")]
-        [StringLength(100)]
+        [StringLength(50)]
         [Unicode(false)]
         public string Address { get; set; }
-        [Required]
         [Column("phone")]
-        [StringLength(50)]
+        [StringLength(20)]
         [Unicode(false)]
         public string Phone { get; set; }
         [Required]
@@ -75,20 +74,26 @@ namespace DAL.Entities
         public string Description { get; set; }
         [Column("doctor_status")]
         public int DoctorStatus { get; set; }
-        [Column("submission_date")]
+        [Column("submission_date", TypeName = "date")]
         public DateTime? SubmissionDate { get; set; }
         [Column("admin_id")]
-        public int AdminId { get; set; }
+        public int? AdminId { get; set; }
         [Column("profile_picture", TypeName = "image")]
         public byte[] ProfilePicture { get; set; }
+        [Column("appointments")]
+        public int? Appointments { get; set; }
+        [Column("rating_count")]
+        public int? RatingCount { get; set; }
 
         [InverseProperty("Doc")]
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment> AppointmentsNavigation { get; set; }
         [InverseProperty("Doc")]
         public virtual ICollection<DocAttacment> DocAttacments { get; set; }
         [InverseProperty("Doc")]
         public virtual ICollection<DocConclusion> DocConclusions { get; set; }
         [InverseProperty("Doc")]
         public virtual ICollection<Followup> Followups { get; set; }
+        [InverseProperty("Doctor")]
+        public virtual ICollection<TempDoctorSchedule> TempDoctorSchedules { get; set; }
     }
 }

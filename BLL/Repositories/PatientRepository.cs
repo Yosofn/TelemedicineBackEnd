@@ -119,7 +119,7 @@ namespace BLL.Repositories
         {
 
          var currentUser = _context.Patients
-                .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).SingleOrDefault();
+                .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
             if (currentUser != null)
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("welcome to my key"));
@@ -141,7 +141,7 @@ namespace BLL.Repositories
             else
             {
                 var AdminUser = _context.Admins
-                    .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).SingleOrDefault();
+                    .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
 
                 if (AdminUser != null)
                 {
@@ -166,7 +166,7 @@ namespace BLL.Repositories
                 else
                 {
                     var medicalDevice = _context.MedicalDevices
-                        .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).SingleOrDefault();
+                        .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
 
                     if (medicalDevice != null)
                     {

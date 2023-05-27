@@ -9,6 +9,7 @@ using DAL.Entities;
 using DAL.Context;
 using BLL.Interfaces;
 using BLL.Repositories;
+using DAL.DTOS.RequestDTO;
 
 namespace Medconnection.Controllers
 {
@@ -64,12 +65,37 @@ namespace Medconnection.Controllers
         }
 
         [HttpPut("ApproveDoctor/{id}/{doctorStatus}")]
-        public IActionResult ApproveDoctor( int id,  int doctorStatus)
+        public IActionResult ApproveDoctor(ApproveDoctorDTO approveDoctor)
         {
-            var result = _adminRepository.ApproveDoctor(id, doctorStatus);
+            var result = _adminRepository.ApproveDoctor(approveDoctor);
 
 
             return Ok(result);
+        }
+
+        [HttpPost("ApproveBooking")]
+        public IActionResult ApproveBooking(AppointmentDTO approveBooking)
+        {
+            try
+            {
+                // Pass the appointment DTO to the repository method for approval
+                var result = _adminRepository.ApproveBooking(approveBooking);
+
+                if (result != null)
+                {
+                    // Return the approved appointment as a response
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound(); // Or any other appropriate HTTP status code
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exception that occurs during the approval process
+                return StatusCode(500, ex.Message); // Internal Server Error
+            }
         }
         // GET: api/Admins/5
         [HttpGet("{id}")]

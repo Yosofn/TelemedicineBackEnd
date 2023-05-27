@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,16 +11,21 @@ namespace DAL.DTOS.RequestDTO
 {
     public class DoctorSchedualeDTO
     {
-
-        [Column("start", TypeName = "datetime")]
-        public DateTime? Start { get; set; }
-        [Column("finish", TypeName = "datetime")]
-        public DateTime? Finish { get; set; }
-        [Column("doc_id")]
-        public int? DocId { get; set; }
-
-        [Column("type")]
-        [StringLength(50)]
-        public string Type { get; set; }
+      
+        public int? DoctorId { get; set; }
+        [Column("day")]
+        [StringLength(10)]
+        [Unicode(false)]
+        public string Day { get; set; }
+        [Column("start_time")]
+        public TimeSpan? StartTime { get; set; }
+        [Column("end_time")]
+        public TimeSpan? EndTime { get; set; }
+        [Column("price", TypeName = "decimal(10, 2)")]
+        public decimal? Price { get; set; }
+        [Column("timeslot")]
+        public int? Timeslot { get; set; }
+        [Column("place")]
+        public string Place { get; set; }
     }
 }

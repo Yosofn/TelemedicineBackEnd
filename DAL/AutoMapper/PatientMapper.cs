@@ -17,6 +17,12 @@ namespace DAL.AutoMapper
            .ForMember(dest => dest.MaritalStatus, opt => opt.MapFrom(src => src.MaritalStatus));
 
             CreateMap<JoinOurTeamDTO, Doctor>();
+            CreateMap<ServicesDTO, Service>();
+            CreateMap<DoctorSchedualeDTO, TempDoctorSchedule>();
+      
+
+
+
             //CreateMap<DocAttacment, DocAttacment>();
 
 

@@ -20,13 +20,13 @@ namespace BLL.Repositories
     public class DoctorRepository :IDoctorRepository
     {
         private readonly TelemedicineContext _context;
-        private readonly IMapper _patientMapper;
+        private readonly IMapper _mapper;
 
-        public DoctorRepository(TelemedicineContext context, IMapper patientMapper)
+        public DoctorRepository(TelemedicineContext context, IMapper mapper)
         
         {
             _context = context;
-            _patientMapper = patientMapper;
+            _mapper = mapper;
 
         }
 
@@ -36,8 +36,7 @@ namespace BLL.Repositories
             {
                 throw new ArgumentException($"Doctor with username {doctor.Username} already exist.");
             }
-
-            var currentDoctor = _patientMapper.Map<Doctor>(doctor);
+            var currentDoctor = _mapper.Map<Doctor>(doctor);
 
             //Doctor doctor1 = new Doctor()
             //{
@@ -72,20 +71,10 @@ namespace BLL.Repositories
             return  doctor;
         }
 
-        public async Task<DocAttacment> AddDocWorkHours(DoctorSchedualeDTO docScheduale)
-        {
-
-            var newscheduale = _patientMapper.Map<DocAttacment>(docScheduale);
-
-            _context.DocAttacments.Add(newscheduale);
-            await _context.SaveChangesAsync();
-
-            return newscheduale;
-        }
 
         public async Task<DocAttacment> AddDocAttachment(DoctorFilesDTO docAttacment)
         {
-            var newFile = _patientMapper.Map<DocAttacment>(docAttacment);
+            var newFile = _mapper.Map<DocAttacment>(docAttacment);
 
 
             _context.DocAttacments.Add(newFile);
@@ -94,6 +83,38 @@ namespace BLL.Repositories
             return newFile;
 
 
+
+        }
+
+
+         public async Task RateDoctor(int doc_Id,int stars)
+        {
+
+            var doctor = await _context.Doctors.FindAsync(doc_Id);
+
+            if (doctor != null)
+            {
+                // Increase appointments count
+                if (doctor.Appointments ==null || doctor.RatingCount == null)
+                {
+                    doctor.Appointments = 0;
+                    doctor.RatingCount=0;
+
+                }
+                doctor.Appointments++;
+
+                // Increase rating_count by adding stars
+                doctor.RatingCount += stars;
+
+                await _context.SaveChangesAsync();
+
+                // Calculate the rate
+                if (doctor.Appointments != 0)
+                    doctor.Rate = doctor.RatingCount / doctor.Appointments;
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+            }
 
         }
     }

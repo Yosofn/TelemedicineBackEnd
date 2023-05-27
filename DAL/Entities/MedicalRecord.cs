@@ -14,23 +14,16 @@ namespace DAL.Entities
         public MedicalRecord()
         {
             DeviceReadings = new HashSet<DeviceReading>();
+            Diagnoses = new HashSet<Diagnosis>();
             DocConclusions = new HashSet<DocConclusion>();
+            Reports = new HashSet<Report>();
             TestsResults = new HashSet<TestsResult>();
+            Treatments = new HashSet<Treatment>();
         }
 
         [Key]
         [Column("record_id")]
         public int RecordId { get; set; }
-        [Column("reports", TypeName = "text")]
-        public string Reports { get; set; }
-        [Column("diagnosis", TypeName = "text")]
-        public string Diagnosis { get; set; }
-        [Column("treatments", TypeName = "text")]
-        public string Treatments { get; set; }
-        [Column("status")]
-        public int Status { get; set; }
-        [Column("expiry_date")]
-        public DateTime ExpiryDate { get; set; }
         [Column("patient_id")]
         public int PatientId { get; set; }
 
@@ -40,8 +33,14 @@ namespace DAL.Entities
         [InverseProperty("Record")]
         public virtual ICollection<DeviceReading> DeviceReadings { get; set; }
         [InverseProperty("Record")]
+        public virtual ICollection<Diagnosis> Diagnoses { get; set; }
+        [InverseProperty("Record")]
         public virtual ICollection<DocConclusion> DocConclusions { get; set; }
         [InverseProperty("Record")]
+        public virtual ICollection<Report> Reports { get; set; }
+        [InverseProperty("Record")]
         public virtual ICollection<TestsResult> TestsResults { get; set; }
+        [InverseProperty("Record")]
+        public virtual ICollection<Treatment> Treatments { get; set; }
     }
 }

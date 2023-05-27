@@ -119,10 +119,19 @@ namespace Medconnection.Controllers
 
             return NoContent();
         }
-       
+
+        [HttpPost]
+        [Route("RateDoctor")]
+        public async Task<IActionResult> RateDoctor(int doc_Id,  int stars)
+        {
+            // Call the RateDoctor function from the BLL
+            await _doctorRepository.RateDoctor(doc_Id, stars);
+
+            return Ok();
+        }
 
 
-     
+
 
         private bool DoctorExists(int id)
         {

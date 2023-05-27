@@ -23,6 +23,7 @@ namespace DAL.Context
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<DeviceReading> DeviceReadings { get; set; }
+        public virtual DbSet<Diagnosis> Diagnoses { get; set; }
         public virtual DbSet<DocAttacment> DocAttacments { get; set; }
         public virtual DbSet<DocConclusion> DocConclusions { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
@@ -31,17 +32,20 @@ namespace DAL.Context
         public virtual DbSet<MedicalRecord> MedicalRecords { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<TempDoctorSchedule> TempDoctorSchedules { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<TestAttachment> TestAttachments { get; set; }
         public virtual DbSet<TestsResult> TestsResults { get; set; }
+        public virtual DbSet<Treatment> Treatments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("MedconnectionContext");
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Telemedicine;Integrated Security=True");
             }
         }
 
@@ -52,14 +56,12 @@ namespace DAL.Context
                 entity.HasOne(d => d.Admin)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.AdminId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("admin control appointment");
 
                 entity.HasOne(d => d.Doc)
-                    .WithMany(p => p.Appointments)
+                    .WithMany(p => p.AppointmentsNavigation)
                     .HasForeignKey(d => d.DocId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("doctors reschudle appointments");
+                    .HasConstraintName("FK_appointment_doctors");
 
                 entity.HasOne(d => d.Followup)
                     .WithMany(p => p.Appointments)
@@ -71,6 +73,11 @@ namespace DAL.Context
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.PatientId)
                     .HasConstraintName("patient book an appointment");
+
+                entity.HasOne(d => d.Scheduale)
+                    .WithMany(p => p.Appointments)
+                    .HasForeignKey(d => d.SchedualeId)
+                    .HasConstraintName("FK_appointment_scheduale");
             });
 
             modelBuilder.Entity<Attachment>(entity =>
@@ -95,6 +102,21 @@ namespace DAL.Context
                     .WithMany(p => p.DeviceReadings)
                     .HasForeignKey(d => d.RecordId)
                     .HasConstraintName("medical recore receive reading");
+            });
+
+            modelBuilder.Entity<Diagnosis>(entity =>
+            {
+                entity.Property(e => e.DiagnosisId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.Diagnoses)
+                    .HasForeignKey(d => d.PatientId)
+                    .HasConstraintName("FK__diagnosis__patie__1EA48E88");
+
+                entity.HasOne(d => d.Record)
+                    .WithMany(p => p.Diagnoses)
+                    .HasForeignKey(d => d.RecordId)
+                    .HasConstraintName("FK__diagnosis__recor__1F98B2C1");
             });
 
             modelBuilder.Entity<DocAttacment>(entity =>
@@ -157,6 +179,21 @@ namespace DAL.Context
                     .HasConstraintName("FK_followup_has_messages");
             });
 
+            modelBuilder.Entity<Report>(entity =>
+            {
+                entity.Property(e => e.ReportId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.Reports)
+                    .HasForeignKey(d => d.PatientId)
+                    .HasConstraintName("FK__reports__patient__1AD3FDA4");
+
+                entity.HasOne(d => d.Record)
+                    .WithMany(p => p.Reports)
+                    .HasForeignKey(d => d.RecordId)
+                    .HasConstraintName("FK__reports__record___1BC821DD");
+            });
+
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.HasOne(d => d.Admin)
@@ -164,6 +201,17 @@ namespace DAL.Context
                     .HasForeignKey(d => d.AdminId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("services added by an admin");
+            });
+
+            modelBuilder.Entity<TempDoctorSchedule>(entity =>
+            {
+                entity.HasKey(e => e.ScheduleId)
+                    .HasName("PK__TempDoct__C4BCB7371BB1F7A0");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.TempDoctorSchedules)
+                    .HasForeignKey(d => d.DoctorId)
+                    .HasConstraintName("FK__TempDocto__docto__2645B050");
             });
 
             modelBuilder.Entity<Test>(entity =>
@@ -201,6 +249,21 @@ namespace DAL.Context
                     .WithMany(p => p.TestsResults)
                     .HasForeignKey(d => d.TestId)
                     .HasConstraintName("test sends results");
+            });
+
+            modelBuilder.Entity<Treatment>(entity =>
+            {
+                entity.Property(e => e.TreatmentId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.Treatments)
+                    .HasForeignKey(d => d.PatientId)
+                    .HasConstraintName("FK__treatment__patie__22751F6C");
+
+                entity.HasOne(d => d.Record)
+                    .WithMany(p => p.Treatments)
+                    .HasForeignKey(d => d.RecordId)
+                    .HasConstraintName("FK__treatment__recor__236943A5");
             });
 
             OnModelCreatingPartial(modelBuilder);

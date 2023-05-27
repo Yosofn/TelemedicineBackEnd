@@ -31,7 +31,7 @@ builder.Services.AddScoped<IQuickRegister, QuickRegister>();
 builder.Services.AddScoped<IAdminReposatory, AdminReposatory>();
 builder.Services.AddScoped<IMedicalDeviceRepository, MedicalDeviceRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
-
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 //Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

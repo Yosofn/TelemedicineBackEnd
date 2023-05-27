@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Entities;
 using DAL.Context;
+using DAL.DTOS.RequestDTO;
+using DAL.AutoMapper;
+using System.Numerics;
+using AutoMapper;
 
 namespace Medconnection.Controllers
 {
@@ -15,10 +19,13 @@ namespace Medconnection.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly TelemedicineContext _context;
+        private readonly IMapper _mapper;
 
-        public ServicesController(TelemedicineContext context)
+        public ServicesController(TelemedicineContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
         // GET: api/Services
@@ -84,16 +91,15 @@ namespace Medconnection.Controllers
         // POST: api/Services
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Service>> PostService(Service service)
+        public async Task<ActionResult<ServicesDTO>> PostService(ServicesDTO service)
         {
-          if (_context.Services == null)
-          {
-              return Problem("Entity set 'TelemedicineContext.Services'  is null.");
-          }
-            _context.Services.Add(service);
+
+            var MappedService = _mapper.Map<Service>(service);
+
+            _context.Services.Add(MappedService);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetService", new { id = service.ServiceId }, service);
+            return CreatedAtAction("GetService", service);
         }
 
         // DELETE: api/Services/5

@@ -30,6 +30,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[diagnosis]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[doc_attacment]",
          "ObjectType": 0
       },
@@ -62,7 +66,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[reports]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[services]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TempDoctorSchedule]",
          "ObjectType": 0
       },
       {
@@ -75,6 +87,10 @@
       },
       {
          "Name": "[dbo].[tests_result]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[treatments]",
          "ObjectType": 0
       }
    ],

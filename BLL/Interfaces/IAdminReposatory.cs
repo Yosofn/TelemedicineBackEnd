@@ -13,7 +13,9 @@ namespace BLL.Interfaces
     {
         public IQueryable  <Doctor> GetDoctorsStatus(int doctorstatus);
 
-        public ApprovedResponse ApproveDoctor(int doctorId, int doctorstatus);
+        public ApprovedResponse ApproveDoctor(ApproveDoctorDTO approveDoctor);
+        public ApprovedResponse ApproveBooking(AppointmentDTO approveBooking);
+
 
         Task<Admin> GetAdminData(UserInformationDTO userInformation);
 
