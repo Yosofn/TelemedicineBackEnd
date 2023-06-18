@@ -15,7 +15,7 @@ namespace BLL.Interfaces
     {
         Task<IEnumerable<Patient>> GetAllAsync();
         Task<Patient> GetByIdAsync(int id);
-        Task<Patient> GetByNationalIdAsync(UserInformationDTO userInformation);
+        Task<PatientResponseDTO> GetByNationalIdAsync(UserInformationDTO userInformation);
 
         Task AddAsync(Patient patient);
         Task Register(PatientDTO patient);

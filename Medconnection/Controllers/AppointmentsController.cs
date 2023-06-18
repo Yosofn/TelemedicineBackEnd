@@ -31,7 +31,43 @@ namespace Medconnection.Controllers
           }
             return await _context.Appointments.ToListAsync();
         }
+        // GET: api/Appointments
 
+        [HttpGet("GetUnApprovedAppointments")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetUnApprovedAppointments()
+
+        {
+
+            var appointments = await _context.Appointments
+              .Where(a => a.Status == 1)
+              .ToListAsync();
+
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+          
+
+            return Ok(appointments);
+        }
+
+        [HttpGet("GetApprovedAppointments")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetApprovedAppointments()
+
+        {
+
+            var appointments = await _context.Appointments
+              .Where(a => a.Status == 2)
+              .ToListAsync();
+
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+
+
+            return Ok(appointments);
+        }
         // GET: api/Appointments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(int id)

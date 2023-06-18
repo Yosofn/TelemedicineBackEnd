@@ -17,7 +17,7 @@ namespace BLL.Interfaces
         public ApprovedResponse ApproveBooking(AppointmentDTO approveBooking);
 
 
-        Task<Admin> GetAdminData(UserInformationDTO userInformation);
+        Task<AdminResponseDTO> GetAdminData(UserInformationDTO userInformation);
 
     }
 }

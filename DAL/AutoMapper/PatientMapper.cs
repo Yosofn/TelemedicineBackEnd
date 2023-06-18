@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.DTOS.RequestDTO;
+using DAL.DTOS.ResponseDTO;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,21 @@ namespace DAL.AutoMapper
         {
             CreateMap<PatientDTO, Patient>()
            .ForMember(dest => dest.MaritalStatus, opt => opt.MapFrom(src => src.MaritalStatus));
+            CreateMap<Patient, PatientResponseDTO>();
+            CreateMap<Doctor, DoctorResponseDTO>();
+            CreateMap<Admin, AdminResponseDTO>();
+
 
             CreateMap<JoinOurTeamDTO, Doctor>();
             CreateMap<ServicesDTO, Service>();
             CreateMap<DoctorSchedualeDTO, TempDoctorSchedule>();
-      
 
 
+            CreateMap<QuickRegisterDTO, Report>();
+            CreateMap<QuickRegisterDTO, Patient>();
 
-            //CreateMap<DocAttacment, DocAttacment>();
+
+            CreateMap<DoctorFilesDTO, DocAttacment>();
 
 
 

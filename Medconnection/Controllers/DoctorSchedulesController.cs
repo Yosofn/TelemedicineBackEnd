@@ -114,7 +114,7 @@ namespace Medconnection.Controllers
                 }
             }
 
-            return CreatedAtAction("GetDoctorSchedule", currentScheduale);
+            return currentScheduale;
         }
 
         // DELETE: api/DoctorSchedules/5

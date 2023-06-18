@@ -27,18 +27,26 @@ namespace BLL.Repositories
         async Task<AuthResponse> IQuickRegister.QuickRegisteration(QuickRegisterDTO quickregister)
         {
             var currentUser = _context.Patients
-                .FirstOrDefault(FilterPatient(quickregister.Username, quickregister.NationalId));
+    .FirstOrDefault(patient => patient.NationalId == quickregister.NationalId);
+
 
             if (currentUser != null)
             {
+                var currentReport = _patientmapper.Map<Report>(currentUser);
+                _context.Reports.Add(currentReport);
+                await _context.SaveChangesAsync();
+
                 return new AuthResponse { Success = true, type = $" {currentUser.Username} already exists ..... we have uploaded the report successfully " };
             }
             else
             {
-                    var currentPatient = _patientmapper.Map<Patient>(quickregister);
-                    _context.Patients.Add(currentPatient);
+                var currentPatient = _patientmapper.Map<Patient>(quickregister);
+                var currentReport = _patientmapper.Map<Report>(quickregister);
+                _context.Patients.Add(currentPatient);
+                _context.Reports.Add(currentReport);
+
                 //it save the data but gives an exeption here ...
-                    await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                     return new AuthResponse { Success = true, type = "This account have been registerded successfully .." };
                 
             }

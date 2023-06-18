@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using DAL.DTOS.RequestDTO;
+using DAL.DTOS.ResponseDTO;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,9 +40,11 @@ namespace Medconnection.Controllers
         }
 
         [HttpPost("JoinOurTeam")]
-        public async Task  JoinOurTeam(JoinOurTeamDTO doctorDTo)
+        public async Task <ActionResult<AuthResponse>>  JoinOurTeam(JoinOurTeamDTO doctorDTo)
         {
             await _doctorRepository.JoinOurTeam(doctorDTo);
+            return Ok();
+
         }
 
 

@@ -19,7 +19,7 @@ namespace Medconnection.Controllers
 
         }
 
-        [HttpGet("{DoctorId}")]
+        [HttpPost("GetAvailableDays")]
         public async Task<ActionResult<List<string>>>GetAvailableDays(int DoctorId)
         {
             List<string> availableDays = await _bookingRepository.GetAvailableDays(DoctorId);

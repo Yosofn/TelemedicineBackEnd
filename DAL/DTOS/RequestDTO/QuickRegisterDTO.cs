@@ -24,5 +24,8 @@ namespace DAL.DTOS.RequestDTO
         [Unicode(false)]
         public string? Phone { get; set; }
 
+        [Column("report", TypeName = "image")]
+        public byte[] Report1 { get; set; }
+
     }
 }

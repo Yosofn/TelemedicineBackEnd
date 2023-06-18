@@ -99,7 +99,7 @@ namespace Medconnection.Controllers
             _context.Services.Add(MappedService);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetService", service);
+            return service;
         }
 
         // DELETE: api/Services/5

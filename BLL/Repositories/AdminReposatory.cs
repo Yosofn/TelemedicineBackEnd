@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using AutoMapper;
+using BLL.Interfaces;
+using DAL.AutoMapper;
 using DAL.Context;
 using DAL.DTOS.RequestDTO;
 using DAL.DTOS.ResponseDTO;
@@ -15,10 +17,14 @@ namespace BLL.Repositories
     public class AdminReposatory : IAdminReposatory
     {
         private readonly TelemedicineContext _context;
+        private readonly IMapper _mapper;
 
-        public AdminReposatory(TelemedicineContext context) {
+        public AdminReposatory(TelemedicineContext context, IMapper patientMapper) {
         
         _context=context;
+        _mapper = patientMapper;
+
+
         }
 
         public ApprovedResponse ApproveDoctor(ApproveDoctorDTO approveDoctor)
@@ -54,12 +60,13 @@ namespace BLL.Repositories
  
         }
 
-        public async Task<Admin> GetAdminData(UserInformationDTO userInformation)
+        public async Task<AdminResponseDTO> GetAdminData(UserInformationDTO userInformation)
         {
             var admin = _context.Admins
                .Where(x => x.Id.Equals(userInformation.Id)).FirstOrDefault();
+            var currentAdmin = _mapper.Map<AdminResponseDTO>(admin);
 
-            return admin;
+            return currentAdmin;
         }
 
         public IQueryable <Doctor> GetDoctorsStatus(int doctorStatus)

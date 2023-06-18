@@ -76,31 +76,7 @@ namespace Medconnection.Controllers
 
         //    POST: api/Patients/Register
         //   To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        [Route("Register()")]
-        public async Task<ActionResult<Patient>> RegisterPatient(PatientDTO patient)
-            /*, [FromForm] FileUpload fileUpload*/
-
-        {
-           
-          var  patient1=  _patientRepository.Register(patient);
-
-            //try
-            //{
-            //    if (fileUpload.files.Length > 0)
-            //    {
-            //        await _patientRepository.SetImage(patient.NationalId, fileUpload.files);
-
-            //    }
-               
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex.Message);
-     
-            return CreatedAtAction("GetPatient", patient1);
-           
-        }
+    
 
         // DELETE: api/Patients/5
         [HttpDelete("{id}")]

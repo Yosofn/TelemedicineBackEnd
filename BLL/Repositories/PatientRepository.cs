@@ -194,12 +194,13 @@ namespace BLL.Repositories
                 
         }
 
-        public async Task<Patient> GetByNationalIdAsync(UserInformationDTO userInformation)
+        public async Task<PatientResponseDTO> GetByNationalIdAsync(UserInformationDTO userInformation)
         {
             var patient = _context.Patients
                 .Where(x => x.Id.Equals(userInformation.Id)).FirstOrDefault();
+            var currentPatient = _patientMapper.Map<PatientResponseDTO>(patient);
 
-            return patient;
+            return currentPatient;
         }
 
  

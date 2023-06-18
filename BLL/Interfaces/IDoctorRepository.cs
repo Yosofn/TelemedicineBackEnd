@@ -13,7 +13,7 @@ namespace BLL.Interfaces
     public interface IDoctorRepository
     {
         Task JoinOurTeam(JoinOurTeamDTO doctor);
-        Task<Doctor> GetDoctorData(UserInformationDTO userInformation);
+        Task<DoctorResponseDTO> GetDoctorData(UserInformationDTO userInformation);
 
          Task<DocAttacment> AddDocAttachment(DoctorFilesDTO docAttacment);
 

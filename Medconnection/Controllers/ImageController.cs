@@ -54,8 +54,8 @@ namespace Medconnection.Controllers
 
 
 
-        [HttpPost("AddFile")]
-        public async Task<IActionResult> AddFile(int Id, [FromForm] FileUpload fileUpload,string type)
+        [HttpPost("AddDoctorFile")]
+        public async Task<IActionResult> AddDoctorFile(int Id, [FromForm] FileUpload fileUpload,string type)
         {
             try
             {

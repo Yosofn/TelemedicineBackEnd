@@ -64,7 +64,7 @@ namespace Medconnection.Controllers
 
         }
 
-        [HttpPut("ApproveDoctor/{id}/{doctorStatus}")]
+        [HttpPut("ApproveDoctor")]
         public IActionResult ApproveDoctor(ApproveDoctorDTO approveDoctor)
         {
             var result = _adminRepository.ApproveDoctor(approveDoctor);
@@ -73,8 +73,8 @@ namespace Medconnection.Controllers
             return Ok(result);
         }
 
-        [HttpPost("ApproveBooking")]
-        public IActionResult ApproveBooking(AppointmentDTO approveBooking)
+        [HttpPost("ApproveAppointment")]
+        public IActionResult ApproveAppointment(AppointmentDTO approveBooking)
         {
             try
             {

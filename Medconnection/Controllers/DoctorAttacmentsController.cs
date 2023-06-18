@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Context;
 using DAL.Entities;
+using DAL.DTOS.RequestDTO;
+using System.Numerics;
+using AutoMapper;
 
 namespace Medconnection.Controllers
 {
@@ -15,9 +18,11 @@ namespace Medconnection.Controllers
     public class DoctorAttacmentsController : ControllerBase
     {
         private readonly TelemedicineContext _context;
+        private readonly IMapper _mapper;
 
-        public DoctorAttacmentsController(TelemedicineContext context)
+        public DoctorAttacmentsController(TelemedicineContext context, IMapper mapper)
         {
+             _mapper=mapper;
             _context = context;
         }
 
@@ -84,16 +89,17 @@ namespace Medconnection.Controllers
         // POST: api/DoctorAttacments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DocAttacment>> PostDocAttacment(DocAttacment docAttacment)
+        public async Task<ActionResult<DocAttacment>> PostDocAttacment(DoctorFilesDTO docAttacment)
         {
           if (_context.DocAttacments == null)
           {
               return Problem("Entity set 'TelemedicineContext.DocAttacments'  is null.");
           }
-            _context.DocAttacments.Add(docAttacment);
+            var Attachment = _mapper.Map<DocAttacment>(docAttacment);
+            _context.DocAttacments.Add(Attachment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDocAttacment", new { id = docAttacment.Id }, docAttacment);
+            return CreatedAtAction("GetDocAttacment", new { id = Attachment.Id }, Attachment);
         }
 
         // DELETE: api/DoctorAttacments/5

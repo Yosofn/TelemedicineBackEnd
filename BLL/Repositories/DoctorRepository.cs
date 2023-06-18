@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Numerics;
@@ -32,43 +33,50 @@ namespace BLL.Repositories
 
         public async Task JoinOurTeam(JoinOurTeamDTO doctor)
         {
-            if (_context.Doctors.Any(x => x.Username.Equals(doctor.Username)))
+
+            var patient = await _context.Patients.FindAsync(doctor.Id);
+
+           
+            if (_context.Doctors.Any(x => x.Username.Equals(patient.Username)))
             {
-                throw new ArgumentException($"Doctor with username {doctor.Username} already exist.");
+                throw new ArgumentException($"Doctor with username {patient.Username} already exist.");
             }
-            var currentDoctor = _mapper.Map<Doctor>(doctor);
+            //var currentDoctor = _mapper.Map<Doctor>(doctor);
+            var formattedDate = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime submissionDate = DateTime.ParseExact(formattedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            //Doctor doctor1 = new Doctor()
-            //{
-            //    Password = currentDoctor.Password,
-            //    Username = currentDoctor.Username,
-            //    Fname = currentDoctor.Username,
-            //    Lname = currentDoctor.Username,
-            //    NationalId = currentDoctor.NationalId,
-            //    ProfileStatus = currentDoctor.ProfileStatus,
-            //    Address = currentDoctor.Address,
-            //    Phone = currentDoctor.Phone,
-            //    Education = currentDoctor.Education,
-            //    Experience = currentDoctor.Experience,
-            //    Sepcialzation = currentDoctor.Sepcialzation,
-            //    Description = currentDoctor.Description,
-            //    DoctorStatus = currentDoctor.DoctorStatus,
-            //    SubmissionDate = currentDoctor.SubmissionDate,
-            //    AdminId = currentDoctor.AdminId,
+            Doctor currentDoctor = new Doctor()
+            {
+                Password = patient.Password,
+                Username = patient.Username,
+                Fname = patient.Fname,
+                Lname = patient.Lname,
+                NationalId = patient.NationalId,
+                ProfileStatus = patient.ProfileStatus,
+                Address = patient.Address,
+                Phone = patient.Phone,
+                Education = doctor.Education,
+                Experience = doctor.Experience,
+                Sepcialzation = doctor.Sepcialzation,
+                Description = doctor.Description,
+                ProfilePicture=doctor.ProfilePicture,
+                DoctorStatus = 1,
+                SubmissionDate = submissionDate,
 
-            //};
+            };
             _context.Doctors.Add(currentDoctor);
             //_context.Doctors.Add(doctor1);
 
             await _context.SaveChangesAsync();
 
         }
-        public async Task<Doctor> GetDoctorData(UserInformationDTO userInformation)
+        public async Task<DoctorResponseDTO> GetDoctorData(UserInformationDTO userInformation)
         {
             var doctor =   _context.Doctors
                 .Where(x => x.Id.Equals(userInformation.Id)).FirstOrDefault();
+            var currentDoctor = _mapper.Map<DoctorResponseDTO>(doctor);
 
-            return  doctor;
+            return currentDoctor;
         }
 
 
