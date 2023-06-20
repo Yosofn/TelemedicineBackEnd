@@ -71,8 +71,8 @@ namespace BLL.Repositories
             {
                 Password = currentPatient.Password,
                 Username = currentPatient.Username,
-                Fname = currentPatient.Username,
-                Lname = currentPatient.Username,
+                Fname = currentPatient.Fname,
+                Lname = currentPatient.Lname,
                 NationalId = currentPatient.NationalId,
                 ProfileStatus = currentPatient.ProfileStatus,
                 Age =currentPatient.Age,
@@ -140,31 +140,9 @@ namespace BLL.Repositories
             }
             else
             {
-                var AdminUser = _context.Admins
-                    .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
+              
 
-                if (AdminUser != null)
-                {
-                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("welcome to my key"));
-
-                    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-                    var data = new List<Claim>();
-                    data.Add(new Claim("Id", AdminUser.Id.ToString()));
-                    data.Add(new Claim("Role", AdminUser.ProfileStatus.ToString()));
-                    data.Add(new Claim("UserName", AdminUser.Username.ToString()));
-
-
-                    var token = new JwtSecurityToken(
-                    claims: data,
-                    expires: DateTime.Now.AddMinutes(120),
-                    signingCredentials: credentials);
-                    return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true };
-
-                }
-
-                else
-                {
+               
                     var medicalDevice = _context.MedicalDevices
                         .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
 
@@ -187,7 +165,7 @@ namespace BLL.Repositories
                         return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true };
 
                     }
-                }
+                
             }
 
             return new AuthResponse { Success = false };

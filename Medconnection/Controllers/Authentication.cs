@@ -68,11 +68,13 @@ namespace Medconnection.Controllers
         [HttpPost("QuickRegister")]
 
 
-        public IActionResult QuickRegister(QuickRegisterDTO quickRegister)
+        public async Task<IActionResult> QuickRegister(QuickRegisterDTO quickRegister)
         {
-            var Authresult = _quickRegister.QuickRegisteration(quickRegister);
+            var Authresult = await _quickRegister.QuickRegisteration(quickRegister);
 
-            return Ok(Authresult);
+          
+                return Ok(Authresult);
+            
         }
 
     }

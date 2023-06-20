@@ -181,17 +181,15 @@ namespace DAL.Context
 
             modelBuilder.Entity<Report>(entity =>
             {
-                entity.Property(e => e.ReportId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Reports)
                     .HasForeignKey(d => d.PatientId)
-                    .HasConstraintName("FK__reports__patient__1AD3FDA4");
+                    .HasConstraintName("FK__NewReport__patie__3C34F16F");
 
                 entity.HasOne(d => d.Record)
                     .WithMany(p => p.Reports)
                     .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("FK__reports__record___1BC821DD");
+                    .HasConstraintName("FK__NewReport__recor__3D2915A8");
             });
 
             modelBuilder.Entity<Service>(entity =>
