@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Context;
 using DAL.Entities;
+using DAL.DTOS.RequestDTO;
 
 namespace Medconnection.Controllers
 {
@@ -83,17 +84,30 @@ namespace Medconnection.Controllers
 
         // POST: api/Tests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Test>> PostTest(Test test)
+        [HttpPost("BookTest")]
+        public async Task<ActionResult<TestDTO>> BookTest(TestDTO test)
         {
           if (_context.Tests == null)
           {
               return Problem("Entity set 'TelemedicineContext.Tests'  is null.");
           }
-            _context.Tests.Add(test);
+
+
+            Test newtest = new Test()
+            {
+                PatientId = test.PatientId,
+                TestPrice = test.TestPrice,
+                Type = test.Type,
+                TestDate = test.TestDate,
+                ServiceId = test.ServiceId,
+                Time = test.Time,
+                TestName = test.TestName,
+
+            };
+            _context.Tests.Add(newtest);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTest", new { id = test.Id }, test);
+            return Ok(newtest);
         }
 
         // DELETE: api/Tests/5

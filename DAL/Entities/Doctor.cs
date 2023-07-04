@@ -15,10 +15,12 @@ namespace DAL.Entities
         public Doctor()
         {
             AppointmentsNavigation = new HashSet<Appointment>();
+            Diagnoses = new HashSet<Diagnosis>();
             DocAttacments = new HashSet<DocAttacment>();
-            DocConclusions = new HashSet<DocConclusion>();
+            DoctorSchedules = new HashSet<DoctorSchedule>();
             Followups = new HashSet<Followup>();
-            TempDoctorSchedules = new HashSet<TempDoctorSchedule>();
+            Reports = new HashSet<Report>();
+            Treatments = new HashSet<Treatment>();
         }
 
         [Key]
@@ -84,16 +86,22 @@ namespace DAL.Entities
         public int? Appointments { get; set; }
         [Column("rating_count")]
         public int? RatingCount { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? DateOfBirth { get; set; }
 
         [InverseProperty("Doc")]
         public virtual ICollection<Appointment> AppointmentsNavigation { get; set; }
         [InverseProperty("Doc")]
-        public virtual ICollection<DocAttacment> DocAttacments { get; set; }
+        public virtual ICollection<Diagnosis> Diagnoses { get; set; }
         [InverseProperty("Doc")]
-        public virtual ICollection<DocConclusion> DocConclusions { get; set; }
+        public virtual ICollection<DocAttacment> DocAttacments { get; set; }
+        [InverseProperty("Doctor")]
+        public virtual ICollection<DoctorSchedule> DoctorSchedules { get; set; }
         [InverseProperty("Doc")]
         public virtual ICollection<Followup> Followups { get; set; }
-        [InverseProperty("Doctor")]
-        public virtual ICollection<TempDoctorSchedule> TempDoctorSchedules { get; set; }
+        [InverseProperty("Doc")]
+        public virtual ICollection<Report> Reports { get; set; }
+        [InverseProperty("Doc")]
+        public virtual ICollection<Treatment> Treatments { get; set; }
     }
 }

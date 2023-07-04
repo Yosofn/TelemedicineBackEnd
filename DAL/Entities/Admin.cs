@@ -55,6 +55,8 @@ namespace DAL.Entities
         public int ProfileStatus { get; set; }
         [Column("national_id")]
         public long? NationalId { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? DateOfBirth { get; set; }
 
         [InverseProperty("Admin")]
         public virtual ICollection<Appointment> Appointments { get; set; }

@@ -22,8 +22,12 @@ namespace DAL.AutoMapper
 
 
             CreateMap<JoinOurTeamDTO, Doctor>();
+
+
+            CreateMap<UpdatePatientDTO, PatientDTO>();
+
             CreateMap<ServicesDTO, Service>();
-            CreateMap<DoctorSchedualeDTO, TempDoctorSchedule>();
+            CreateMap<DoctorSchedualeDTO, DoctorSchedule>();
 
 
             CreateMap<QuickRegisterDTO, Report>();

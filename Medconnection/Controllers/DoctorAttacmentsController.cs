@@ -10,6 +10,7 @@ using DAL.Entities;
 using DAL.DTOS.RequestDTO;
 using System.Numerics;
 using AutoMapper;
+using System.Security.Cryptography;
 
 namespace Medconnection.Controllers
 {
@@ -54,6 +55,27 @@ namespace Medconnection.Controllers
 
             return docAttacment;
         }
+
+
+        [HttpGet("GetDoctorAttacmentByDoctorID")]
+        public async Task<ActionResult<DocAttacment>> GetDoctorAttacmentByDoctorID(int DocId)
+        {
+            if (_context.DocAttacments == null)
+            {
+                return NotFound();
+            }
+            var docAttacment = _context.DocAttacments
+                            .Where(Attachment => Attachment.DocId == DocId)
+                                .ToList();
+            if (docAttacment == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(docAttacment);
+        }
+
+
 
         // PUT: api/DoctorAttacments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

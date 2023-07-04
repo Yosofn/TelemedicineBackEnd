@@ -28,37 +28,38 @@ namespace Medconnection.Controllers
 
         // GET: api/DoctorSchedules
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TempDoctorSchedule>>> GetDoctorSchedules()
+        public async Task<ActionResult<IEnumerable<DoctorSchedule>>> GetDoctorSchedules()
         {
-          if (_context.TempDoctorSchedules == null)
+          if (_context.DoctorSchedules == null)
           {
               return NotFound();
           }
-            return await _context.TempDoctorSchedules.ToListAsync();
+            return await _context.DoctorSchedules.ToListAsync();
         }
 
         // GET: api/DoctorSchedules/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TempDoctorSchedule>> GetDoctorSchedule(int id)
+        [HttpPost("GetDoctorSchedule")]
+        public async Task<ActionResult<DoctorSchedule>> GetDoctorSchedule(int DoctorId)
         {
-          if (_context.TempDoctorSchedules == null)
+          if (_context.DoctorSchedules == null)
           {
               return NotFound();
           }
-            var doctorSchedule = await _context.TempDoctorSchedules.FindAsync(id);
-
-            if (doctorSchedule == null)
+            var schedules = _context.DoctorSchedules
+                    .Where(schedule => schedule.DoctorId == DoctorId)
+                    .ToList();
+            if (schedules == null)
             {
                 return NotFound();
             }
 
-            return doctorSchedule;
+            return Ok(schedules);
         }
 
         // PUT: api/DoctorSchedules/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctorSchedule(int id, TempDoctorSchedule doctorSchedule)
+        public async Task<IActionResult> PutDoctorSchedule(int id, DoctorSchedule doctorSchedule)
         {
             if (id != doctorSchedule.ScheduleId)
             {
@@ -89,15 +90,15 @@ namespace Medconnection.Controllers
         // POST: api/DoctorSchedules
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TempDoctorSchedule>> PostDoctorSchedule(DoctorSchedualeDTO doctorSchedule)
+        public async Task<ActionResult<DoctorSchedule>> PostDoctorSchedule(DoctorSchedualeDTO doctorSchedule)
         {
-          if (_context.TempDoctorSchedules == null)
+          if (_context.DoctorSchedules == null)
           {
               return Problem("Entity set 'TelemedicineContext.DoctorSchedules'  is null.");
           }
-            var currentScheduale = _mapper.Map<TempDoctorSchedule>(doctorSchedule);
+            var currentScheduale = _mapper.Map<DoctorSchedule>(doctorSchedule);
 
-            _context.TempDoctorSchedules.Add(currentScheduale);
+            _context.DoctorSchedules.Add(currentScheduale);
             try
             {
                 await _context.SaveChangesAsync();
@@ -121,17 +122,17 @@ namespace Medconnection.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctorSchedule(int id)
         {
-            if (_context.TempDoctorSchedules == null)
+            if (_context.DoctorSchedules == null)
             {
                 return NotFound();
             }
-            var doctorSchedule = await _context.TempDoctorSchedules.FindAsync(id);
+            var doctorSchedule = await _context.DoctorSchedules.FindAsync(id);
             if (doctorSchedule == null)
             {
                 return NotFound();
             }
 
-            _context.TempDoctorSchedules.Remove(doctorSchedule);
+            _context.DoctorSchedules.Remove(doctorSchedule);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -139,7 +140,7 @@ namespace Medconnection.Controllers
 
         private bool DoctorScheduleExists(int id)
         {
-            return (_context.TempDoctorSchedules?.Any(e => e.ScheduleId == id)).GetValueOrDefault();
+            return (_context.DoctorSchedules?.Any(e => e.ScheduleId == id)).GetValueOrDefault();
         }
     }
 }

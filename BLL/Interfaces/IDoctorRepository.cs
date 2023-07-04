@@ -19,5 +19,8 @@ namespace BLL.Interfaces
 
         Task RateDoctor(int doc_Id, int stars);
 
+        Task UpdateAsync(UpdateDoctorDTO doctor);
+
+
     }
 }

@@ -13,10 +13,8 @@ namespace DAL.DTOS.RequestDTO
     {
       
         public int? DoctorId { get; set; }
-        [Column("day")]
-        [StringLength(10)]
-        [Unicode(false)]
-        public string Day { get; set; }
+        [Column("date", TypeName = "date")]
+        public DateTime? Date { get; set; }
         [Column("start_time")]
         public TimeSpan? StartTime { get; set; }
         [Column("end_time")]

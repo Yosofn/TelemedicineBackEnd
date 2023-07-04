@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace BLL.Repositories
 {
-    public class DoctorRepository :IDoctorRepository
+    public class DoctorRepository : IDoctorRepository
     {
         private readonly TelemedicineContext _context;
         private readonly IMapper _mapper;
 
         public DoctorRepository(TelemedicineContext context, IMapper mapper)
-        
+
         {
             _context = context;
             _mapper = mapper;
@@ -36,7 +36,7 @@ namespace BLL.Repositories
 
             var patient = await _context.Patients.FindAsync(doctor.Id);
 
-           
+
             if (_context.Doctors.Any(x => x.Username.Equals(patient.Username)))
             {
                 throw new ArgumentException($"Doctor with username {patient.Username} already exist.");
@@ -59,9 +59,10 @@ namespace BLL.Repositories
                 Experience = doctor.Experience,
                 Sepcialzation = doctor.Sepcialzation,
                 Description = doctor.Description,
-                ProfilePicture=doctor.ProfilePicture,
+                ProfilePicture = patient.ProfilePicture,
                 DoctorStatus = 1,
                 SubmissionDate = submissionDate,
+                DateOfBirth = patient.DateOfBirth,
 
             };
             _context.Doctors.Add(currentDoctor);
@@ -72,7 +73,7 @@ namespace BLL.Repositories
         }
         public async Task<DoctorResponseDTO> GetDoctorData(UserInformationDTO userInformation)
         {
-            var doctor =   _context.Doctors
+            var doctor = _context.Doctors
                 .Where(x => x.Id.Equals(userInformation.Id)).FirstOrDefault();
             var currentDoctor = _mapper.Map<DoctorResponseDTO>(doctor);
 
@@ -86,7 +87,7 @@ namespace BLL.Repositories
 
 
             _context.DocAttacments.Add(newFile);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return newFile;
 
@@ -95,7 +96,7 @@ namespace BLL.Repositories
         }
 
 
-         public async Task RateDoctor(int doc_Id,int stars)
+        public async Task RateDoctor(int doc_Id, int stars)
         {
 
             var doctor = await _context.Doctors.FindAsync(doc_Id);
@@ -103,10 +104,10 @@ namespace BLL.Repositories
             if (doctor != null)
             {
                 // Increase appointments count
-                if (doctor.Appointments ==null || doctor.RatingCount == null)
+                if (doctor.Appointments == null || doctor.RatingCount == null)
                 {
                     doctor.Appointments = 0;
-                    doctor.RatingCount=0;
+                    doctor.RatingCount = 0;
 
                 }
                 doctor.Appointments++;
@@ -125,5 +126,37 @@ namespace BLL.Repositories
             }
 
         }
+
+
+        public async Task UpdateAsync(UpdateDoctorDTO doctor)
+        {
+            var existingdoctor = _context.Doctors.Where(x => x.Id.Equals(doctor.Id)).FirstOrDefault();
+
+            if (existingdoctor != null)
+            {
+
+
+                existingdoctor.Password = doctor.Password;
+                existingdoctor.Username = doctor.Username;
+                existingdoctor.Fname = doctor.Fname;
+                existingdoctor.Lname = doctor.Lname;
+                existingdoctor.NationalId = doctor.NationalId;
+                existingdoctor.Address = doctor.Address;
+                existingdoctor.ProfilePicture = doctor.ProfilePicture;
+                existingdoctor.DateOfBirth = doctor.DateOfBirth;
+                existingdoctor.Education = doctor.Education;
+                existingdoctor.Experience = doctor.Experience;
+                existingdoctor.Sepcialzation = doctor.Sepcialzation;
+                existingdoctor.Description = doctor.Description;
+
+
+
+                _context.Entry(existingdoctor).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+            }
+        }
+
     }
 }
+

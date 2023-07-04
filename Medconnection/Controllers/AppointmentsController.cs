@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Context;
 using DAL.Entities;
+using DAL.DTOS.ResponseDTO;
 
 namespace Medconnection.Controllers
 {
@@ -132,6 +133,18 @@ namespace Medconnection.Controllers
             return CreatedAtAction("GetAppointment", new { id = appointment.Id }, appointment);
         }
 
+
+        [HttpPost("cancelAppointment")]
+        public async Task<ActionResult<Appointment>> cancelAppointment(int id)
+        {
+            var appointment = _context.Appointments.Find(id);
+
+            appointment.Status = 0;
+           await _context.SaveChangesAsync();
+
+
+            return Ok(appointment);
+        }
         // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id)

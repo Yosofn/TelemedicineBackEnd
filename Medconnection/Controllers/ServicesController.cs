@@ -38,6 +38,33 @@ namespace Medconnection.Controllers
           }
             return await _context.Services.ToListAsync();
         }
+        [HttpGet("GetMedicalAnalysis")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetMedicalAnalysis()
+        {
+            var services = await _context.Services.Where(s => s.ServiceType == 1).ToListAsync();
+
+            if (services == null || services.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return services;
+        }
+
+        [HttpGet("GetMedicalRays")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetMedicalRays()
+        {
+            var services = await _context.Services.Where(s => s.ServiceType == 2).ToListAsync();
+
+            if (services == null || services.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return services;
+        }
+
+
 
         // GET: api/Services/5
         [HttpGet("{id}")]

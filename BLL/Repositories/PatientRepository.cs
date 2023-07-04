@@ -30,9 +30,9 @@ namespace BLL.Repositories
             _context = context;
             _patientMapper = patientMapper;
 
-    }
+        }
 
-    public async Task<IEnumerable<Patient>> GetAllAsync()
+        public async Task<IEnumerable<Patient>> GetAllAsync()
         {
             return await _context.Patients.ToListAsync();
         }
@@ -66,7 +66,7 @@ namespace BLL.Repositories
 
             var currentPatient = _patientMapper.Map<Patient>(patient);
 
-            
+
             Patient patient1 = new Patient()
             {
                 Password = currentPatient.Password,
@@ -75,28 +75,55 @@ namespace BLL.Repositories
                 Lname = currentPatient.Lname,
                 NationalId = currentPatient.NationalId,
                 ProfileStatus = currentPatient.ProfileStatus,
-                Age =currentPatient.Age,
+                Age = currentPatient.Age,
                 Address = currentPatient.Address,
                 Height = currentPatient.Height,
-                Weight  = currentPatient.Weight,
+                Weight = currentPatient.Weight,
                 Job = currentPatient.Job,
                 Phone = currentPatient.Phone,
-                Gender = currentPatient.Gender, 
-                MaritalStatus   = currentPatient.MaritalStatus,
+                Gender = currentPatient.Gender,
+                MaritalStatus = currentPatient.MaritalStatus,
 
             };
-          //  _context.Patients.Add(currentPatient);
+            //  _context.Patients.Add(currentPatient);
             _context.Patients.Add(patient1);
 
             _context.SaveChangesAsync();
-            return new AuthResponse { Success = true};
+            return new AuthResponse { Success = true };
 
         }
-    
-            public async Task UpdateAsync(Patient patient)
+
+        public async Task UpdateAsync(UpdatePatientDTO patient)
         {
-            _context.Entry(patient).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var existingPatient = _context.Patients.Where(x => x.Id.Equals(patient.Id)).FirstOrDefault();
+
+            if (existingPatient != null)
+            {
+
+
+                existingPatient.Password = patient.Password;
+                existingPatient.Username = patient.Username;
+                existingPatient.Fname = patient.Fname;
+                existingPatient.Lname = patient.Lname;
+                existingPatient.NationalId = patient.NationalId;
+                existingPatient.ProfileStatus = patient.ProfileStatus;
+                existingPatient.Age = patient.Age;
+                existingPatient.Address = patient.Address;
+                existingPatient.Height = patient.Height;
+                existingPatient.Weight = patient.Weight;
+                existingPatient.Job = patient.Job;
+                existingPatient.Phone = patient.Phone;
+                existingPatient.Gender = patient.Gender;
+                existingPatient.MaritalStatus = patient.MaritalStatus;
+                existingPatient.ProfilePicture = patient.ProfilePicture;
+                existingPatient.DateOfBirth = patient.DateOfBirth;
+
+
+
+                _context.Entry(existingPatient).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+            }
         }
 
         public async Task DeleteAsync(int id)
@@ -117,32 +144,59 @@ namespace BLL.Repositories
 
         public AuthResponse UserLogin(UserLoginDTO userLogin)
         {
+            var currentDoctor = _context.Doctors
+               .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
 
-         var currentUser = _context.Patients
-                .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
-            if (currentUser != null)
+            if (currentDoctor != null)
             {
+
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("welcome to my key"));
 
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var data = new List<Claim>();
-                data.Add(new Claim("Id", currentUser.Id.ToString()));
-                data.Add(new Claim("Role", currentUser.ProfileStatus.ToString()));
-                data.Add(new Claim("UserName", currentUser.Username.ToString()));
+                data.Add(new Claim("Id", currentDoctor.Id.ToString()));
+                data.Add(new Claim("Role", currentDoctor.ProfileStatus.ToString()));
+                data.Add(new Claim("UserName", currentDoctor.Username.ToString()));
 
                 var token = new JwtSecurityToken(
                 claims: data,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials);
-                return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true};
+                return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true };
 
             }
+
+
             else
             {
-              
 
-               
+                var currentUser = _context.Patients
+                .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
+
+                if (currentUser != null)
+                {
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("welcome to my key"));
+
+                    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                    var data = new List<Claim>();
+                    data.Add(new Claim("Id", currentUser.Id.ToString()));
+                    data.Add(new Claim("Role", currentUser.ProfileStatus.ToString()));
+                    data.Add(new Claim("UserName", currentUser.Username.ToString()));
+
+                    var token = new JwtSecurityToken(
+                    claims: data,
+                    expires: DateTime.Now.AddMinutes(120),
+                    signingCredentials: credentials);
+                    return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true };
+
+
+                }
+
+
+
+                else {
                     var medicalDevice = _context.MedicalDevices
                         .Where(x => x.Username.Equals(userLogin.Username) && x.Password.Equals(userLogin.Password)).FirstOrDefault();
 
@@ -165,9 +219,9 @@ namespace BLL.Repositories
                         return new AuthResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), Success = true };
 
                     }
-                
+                }
             }
-
+        
             return new AuthResponse { Success = false };
                 
         }

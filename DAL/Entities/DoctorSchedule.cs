@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Entities
 {
-    [Table("TempDoctorSchedule")]
-    public partial class TempDoctorSchedule
+    [Table("DoctorSchedule")]
+    public partial class DoctorSchedule
     {
-        public TempDoctorSchedule()
+        public DoctorSchedule()
         {
             Appointments = new HashSet<Appointment>();
         }
@@ -21,10 +21,8 @@ namespace DAL.Entities
         public int ScheduleId { get; set; }
         [Column("doctor_Id")]
         public int? DoctorId { get; set; }
-        [Column("day")]
-        [StringLength(10)]
-        [Unicode(false)]
-        public string Day { get; set; }
+        [Column("date", TypeName = "date")]
+        public DateTime? Date { get; set; }
         [Column("start_time")]
         public TimeSpan? StartTime { get; set; }
         [Column("end_time")]
@@ -32,9 +30,11 @@ namespace DAL.Entities
         [Column("price", TypeName = "decimal(10, 2)")]
         public decimal? Price { get; set; }
         public int? Duration { get; set; }
+        [StringLength(100)]
+        public string Place { get; set; }
 
         [ForeignKey("DoctorId")]
-        [InverseProperty("TempDoctorSchedules")]
+        [InverseProperty("DoctorSchedules")]
         public virtual Doctor Doctor { get; set; }
         [InverseProperty("Scheduale")]
         public virtual ICollection<Appointment> Appointments { get; set; }

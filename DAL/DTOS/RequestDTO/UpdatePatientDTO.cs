@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,13 +7,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace DAL.DTOS.RequestDTO
 {
-    public class PatientDTO
+    public class UpdatePatientDTO
     {
-      
+
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }
+
         [Column("national_id")]
         public long? NationalId { get; set; }
         [Required]
@@ -67,7 +71,8 @@ namespace DAL.DTOS.RequestDTO
         [Column(TypeName = "date")]
         public DateTime? DateOfBirth { get; set; }
 
-        //[Column("profile_picture", TypeName = "image")]
-        //public IFormFile ProfilePicture { get; set; }
+
+        [Column("profile_picture", TypeName = "image")]
+        public byte[] ProfilePicture { get; set; }
     }
 }

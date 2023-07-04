@@ -2,6 +2,7 @@ using BLL.Interfaces;
 using BLL.Repositories;
 using DAL.Context;
 using DAL.Entities;
+using Medconnection.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
+builder.Services.AddSignalR();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -72,6 +74,7 @@ var app = builder.Build();
 //}
 app.UseCors("corspolicy");
 app.UseAuthorization();
+app.MapHub<ChatHub>("/Messages");
 
 app.UseHttpsRedirection();
 

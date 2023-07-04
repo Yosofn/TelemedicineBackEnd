@@ -12,22 +12,15 @@ namespace DAL.DTOS.RequestDTO
 {
     public class ReportDTO
     {
-        [Key]
-        [Column("report_Id")]
-        public int ReportId { get; set; }
+
         [Column("report", TypeName = "image")]
         public byte[] Report { get; set; }
         [Column("patient_Id")]
         public int? PatientId { get; set; }
-        [Column("record_Id")]
-        public int? RecordId { get; set; }
 
-        [ForeignKey("PatientId")]
-        [InverseProperty("Reports")]
-        public virtual Patient Patient { get; set; }
-        [ForeignKey("RecordId")]
-        [InverseProperty("Reports")]
-        public virtual MedicalRecord Record { get; set; }
+        public int? doctorId { get; set; }
 
+        [Column("device_number")]
+        public int? DeviceNumber { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using DAL.Entities;
 using DAL.Context;
 using DAL.DTOS.RequestDTO;
 using BLL.Interfaces;
+using BLL.Repositories;
 
 namespace Medconnection.Controllers
 {
@@ -57,32 +58,12 @@ namespace Medconnection.Controllers
         // PUT: api/Doctors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctor(int id, Doctor doctor)
+        public async Task<IActionResult> PutDoctor(UpdateDoctorDTO doctor)
         {
-            if (id != doctor.Id)
-            {
-                return BadRequest();
-            }
+            await _doctorRepository.UpdateAsync(doctor);
+            return Ok();
 
-            _context.Entry(doctor).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DoctorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Doctors

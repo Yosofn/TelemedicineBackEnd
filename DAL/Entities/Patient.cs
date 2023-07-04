@@ -16,7 +16,6 @@ namespace DAL.Entities
             Appointments = new HashSet<Appointment>();
             Diagnoses = new HashSet<Diagnosis>();
             Followups = new HashSet<Followup>();
-            MedicalRecords = new HashSet<MedicalRecord>();
             Reports = new HashSet<Report>();
             Tests = new HashSet<Test>();
             Treatments = new HashSet<Treatment>();
@@ -77,6 +76,8 @@ namespace DAL.Entities
         public string MaritalStatus { get; set; }
         [Column("profile_picture", TypeName = "image")]
         public byte[] ProfilePicture { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? DateOfBirth { get; set; }
 
         [InverseProperty("Patient")]
         public virtual ICollection<Appointment> Appointments { get; set; }
@@ -84,8 +85,6 @@ namespace DAL.Entities
         public virtual ICollection<Diagnosis> Diagnoses { get; set; }
         [InverseProperty("Patient")]
         public virtual ICollection<Followup> Followups { get; set; }
-        [InverseProperty("Patient")]
-        public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
         [InverseProperty("Patient")]
         public virtual ICollection<Report> Reports { get; set; }
         [InverseProperty("Patient")]

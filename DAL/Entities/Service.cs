@@ -19,22 +19,21 @@ namespace DAL.Entities
         [Key]
         [Column("service_id")]
         public int ServiceId { get; set; }
-        [Required]
         [Column("service_price")]
-        [StringLength(10)]
-        [Unicode(false)]
-        public string ServicePrice { get; set; }
+        public int? ServicePrice { get; set; }
         [Required]
         [Column("service_name")]
         [StringLength(100)]
         [Unicode(false)]
         public string ServiceName { get; set; }
         [Column("service_place")]
-        public int ServicePlace { get; set; }
+        [StringLength(20)]
+        [Unicode(false)]
+        public string ServicePlace { get; set; }
         [Column("discount", TypeName = "decimal(18, 0)")]
         public decimal? Discount { get; set; }
         [Column("service_type")]
-        public int ServiceType { get; set; }
+        public int? ServiceType { get; set; }
         [Column("admin_id")]
         public int AdminId { get; set; }
 

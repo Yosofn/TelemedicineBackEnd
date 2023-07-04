@@ -72,5 +72,9 @@ namespace DAL.DTOS.ResponseDTO
 
         [Column("rating_count")]
         public int? RatingCount { get; set; }
+
+
+        [Column(TypeName = "date")]
+        public DateTime? DateOfBirth { get; set; }
     }
 }

@@ -13,12 +13,7 @@ namespace DAL.Entities
     {
         public MedicalRecord()
         {
-            DeviceReadings = new HashSet<DeviceReading>();
-            Diagnoses = new HashSet<Diagnosis>();
-            DocConclusions = new HashSet<DocConclusion>();
             Reports = new HashSet<Report>();
-            TestsResults = new HashSet<TestsResult>();
-            Treatments = new HashSet<Treatment>();
         }
 
         [Key]
@@ -27,20 +22,7 @@ namespace DAL.Entities
         [Column("patient_id")]
         public int PatientId { get; set; }
 
-        [ForeignKey("PatientId")]
-        [InverseProperty("MedicalRecords")]
-        public virtual Patient Patient { get; set; }
-        [InverseProperty("Record")]
-        public virtual ICollection<DeviceReading> DeviceReadings { get; set; }
-        [InverseProperty("Record")]
-        public virtual ICollection<Diagnosis> Diagnoses { get; set; }
-        [InverseProperty("Record")]
-        public virtual ICollection<DocConclusion> DocConclusions { get; set; }
         [InverseProperty("Record")]
         public virtual ICollection<Report> Reports { get; set; }
-        [InverseProperty("Record")]
-        public virtual ICollection<TestsResult> TestsResults { get; set; }
-        [InverseProperty("Record")]
-        public virtual ICollection<Treatment> Treatments { get; set; }
     }
 }

@@ -22,11 +22,10 @@ namespace DAL.Context
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
-        public virtual DbSet<DeviceReading> DeviceReadings { get; set; }
         public virtual DbSet<Diagnosis> Diagnoses { get; set; }
         public virtual DbSet<DocAttacment> DocAttacments { get; set; }
-        public virtual DbSet<DocConclusion> DocConclusions { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<DoctorSchedule> DoctorSchedules { get; set; }
         public virtual DbSet<Followup> Followups { get; set; }
         public virtual DbSet<MedicalDevice> MedicalDevices { get; set; }
         public virtual DbSet<MedicalRecord> MedicalRecords { get; set; }
@@ -34,10 +33,7 @@ namespace DAL.Context
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Service> Services { get; set; }
-        public virtual DbSet<TempDoctorSchedule> TempDoctorSchedules { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
-        public virtual DbSet<TestAttachment> TestAttachments { get; set; }
-        public virtual DbSet<TestsResult> TestsResults { get; set; }
         public virtual DbSet<Treatment> Treatments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -66,7 +62,6 @@ namespace DAL.Context
                 entity.HasOne(d => d.Followup)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.FollowupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("appointment has many followup");
 
                 entity.HasOne(d => d.Patient)
@@ -89,34 +84,17 @@ namespace DAL.Context
                     .HasConstraintName("FK_followup_has_attachment");
             });
 
-            modelBuilder.Entity<DeviceReading>(entity =>
-            {
-                entity.HasKey(e => new { e.DeviceId, e.RecordId });
-
-                entity.HasOne(d => d.Device)
-                    .WithMany(p => p.DeviceReadings)
-                    .HasForeignKey(d => d.DeviceId)
-                    .HasConstraintName("medical device sen reading");
-
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.DeviceReadings)
-                    .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("medical recore receive reading");
-            });
-
             modelBuilder.Entity<Diagnosis>(entity =>
             {
-                entity.Property(e => e.DiagnosisId).ValueGeneratedNever();
+                entity.HasOne(d => d.Doc)
+                    .WithMany(p => p.Diagnoses)
+                    .HasForeignKey(d => d.DocId)
+                    .HasConstraintName("FK_diagnosis_doctor");
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Diagnoses)
                     .HasForeignKey(d => d.PatientId)
-                    .HasConstraintName("FK__diagnosis__patie__1EA48E88");
-
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.Diagnoses)
-                    .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("FK__diagnosis__recor__1F98B2C1");
+                    .HasConstraintName("FK__new_digno__patie__47A6A41B");
             });
 
             modelBuilder.Entity<DocAttacment>(entity =>
@@ -127,21 +105,15 @@ namespace DAL.Context
                     .HasConstraintName("doctors has attachment");
             });
 
-            modelBuilder.Entity<DocConclusion>(entity =>
+            modelBuilder.Entity<DoctorSchedule>(entity =>
             {
-                entity.HasKey(e => new { e.DocId, e.RecordId });
+                entity.HasKey(e => e.ScheduleId)
+                    .HasName("PK__TempDoct__C4BCB7371BB1F7A0");
 
-                entity.HasOne(d => d.Doc)
-                    .WithMany(p => p.DocConclusions)
-                    .HasForeignKey(d => d.DocId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("doctor write prescription");
-
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.DocConclusions)
-                    .HasForeignKey(d => d.RecordId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("medical record receive prescription");
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorSchedules)
+                    .HasForeignKey(d => d.DoctorId)
+                    .HasConstraintName("FK__TempDocto__docto__2645B050");
             });
 
             modelBuilder.Entity<Followup>(entity =>
@@ -163,11 +135,6 @@ namespace DAL.Context
             {
                 entity.HasKey(e => e.RecordId)
                     .HasName("PK__medical___BFCFB4DD459675FF");
-
-                entity.HasOne(d => d.Patient)
-                    .WithMany(p => p.MedicalRecords)
-                    .HasForeignKey(d => d.PatientId)
-                    .HasConstraintName("patient has medical record");
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -175,12 +142,21 @@ namespace DAL.Context
                 entity.HasOne(d => d.Followup)
                     .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.FollowupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_followup_has_messages");
             });
 
             modelBuilder.Entity<Report>(entity =>
             {
+                entity.HasOne(d => d.DeviceNumberNavigation)
+                    .WithMany(p => p.Reports)
+                    .HasForeignKey(d => d.DeviceNumber)
+                    .HasConstraintName("FK_Reports_medical_Device");
+
+                entity.HasOne(d => d.Doc)
+                    .WithMany(p => p.Reports)
+                    .HasForeignKey(d => d.DocId)
+                    .HasConstraintName("FK_Reports_Doctor");
+
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Reports)
                     .HasForeignKey(d => d.PatientId)
@@ -201,17 +177,6 @@ namespace DAL.Context
                     .HasConstraintName("services added by an admin");
             });
 
-            modelBuilder.Entity<TempDoctorSchedule>(entity =>
-            {
-                entity.HasKey(e => e.ScheduleId)
-                    .HasName("PK__TempDoct__C4BCB7371BB1F7A0");
-
-                entity.HasOne(d => d.Doctor)
-                    .WithMany(p => p.TempDoctorSchedules)
-                    .HasForeignKey(d => d.DoctorId)
-                    .HasConstraintName("FK__TempDocto__docto__2645B050");
-            });
-
             modelBuilder.Entity<Test>(entity =>
             {
                 entity.HasOne(d => d.Patient)
@@ -226,42 +191,17 @@ namespace DAL.Context
                     .HasConstraintName("FK_test_services");
             });
 
-            modelBuilder.Entity<TestAttachment>(entity =>
-            {
-                entity.HasOne(d => d.Test)
-                    .WithMany(p => p.TestAttachments)
-                    .HasForeignKey(d => d.TestId)
-                    .HasConstraintName("every test has attachment");
-            });
-
-            modelBuilder.Entity<TestsResult>(entity =>
-            {
-                entity.HasKey(e => new { e.TestId, e.RecordId });
-
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.TestsResults)
-                    .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("medical record receives results");
-
-                entity.HasOne(d => d.Test)
-                    .WithMany(p => p.TestsResults)
-                    .HasForeignKey(d => d.TestId)
-                    .HasConstraintName("test sends results");
-            });
-
             modelBuilder.Entity<Treatment>(entity =>
             {
-                entity.Property(e => e.TreatmentId).ValueGeneratedNever();
+                entity.HasOne(d => d.Doc)
+                    .WithMany(p => p.Treatments)
+                    .HasForeignKey(d => d.DocId)
+                    .HasConstraintName("FK_treatment_doctor");
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Treatments)
                     .HasForeignKey(d => d.PatientId)
-                    .HasConstraintName("FK__treatment__patie__22751F6C");
-
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.Treatments)
-                    .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("FK__treatment__recor__236943A5");
+                    .HasConstraintName("FK__new_treat__patie__44CA3770");
             });
 
             OnModelCreatingPartial(modelBuilder);

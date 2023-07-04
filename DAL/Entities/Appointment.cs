@@ -23,8 +23,8 @@ namespace DAL.Entities
         public double? Rate { get; set; }
         [Column("reservation_date", TypeName = "datetime")]
         public DateTime ReservationDate { get; set; }
-        [Column("start", TypeName = "datetime")]
-        public DateTime Start { get; set; }
+        [Column("start")]
+        public TimeSpan? Start { get; set; }
         [Required]
         [Column("place")]
         [StringLength(50)]
@@ -36,7 +36,7 @@ namespace DAL.Entities
         [Column("booking_receipt")]
         public string BookingReceipt { get; set; }
         [Column("followup_id")]
-        public int FollowupId { get; set; }
+        public int? FollowupId { get; set; }
         [Column("admin_id")]
         public int? AdminId { get; set; }
         [Column("scheduale_Id")]
@@ -45,6 +45,19 @@ namespace DAL.Entities
         public int? DocId { get; set; }
         [Column("end_time")]
         public TimeSpan? EndTime { get; set; }
+        [Column("patient_photo", TypeName = "image")]
+        public byte[] PatientPhoto { get; set; }
+        [Column("doctor_photo", TypeName = "image")]
+        public byte[] DoctorPhoto { get; set; }
+        [Column("patientName")]
+        [StringLength(1)]
+        [Unicode(false)]
+        public string PatientName { get; set; }
+        [Column("doctorName")]
+        [StringLength(1)]
+        [Unicode(false)]
+        public string DoctorName { get; set; }
+        public int? Price { get; set; }
 
         [ForeignKey("AdminId")]
         [InverseProperty("Appointments")]
@@ -60,6 +73,6 @@ namespace DAL.Entities
         public virtual Patient Patient { get; set; }
         [ForeignKey("SchedualeId")]
         [InverseProperty("Appointments")]
-        public virtual TempDoctorSchedule Scheduale { get; set; }
+        public virtual DoctorSchedule Scheduale { get; set; }
     }
 }

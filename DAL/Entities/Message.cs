@@ -18,10 +18,13 @@ namespace DAL.Entities
         [Required]
         [Column("content", TypeName = "text")]
         public string Content { get; set; }
-        [Column("date")]
-        public DateTime Date { get; set; }
+        [Column("date", TypeName = "datetime")]
+        public DateTime? Date { get; set; }
         [Column("followup_id")]
-        public int FollowupId { get; set; }
+        public int? FollowupId { get; set; }
+        public int? SenderId { get; set; }
+        public int? ReceiverId { get; set; }
+        public int? Type { get; set; }
 
         [ForeignKey("FollowupId")]
         [InverseProperty("Messages")]

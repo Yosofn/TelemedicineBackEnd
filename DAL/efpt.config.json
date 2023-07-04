@@ -26,10 +26,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[device_reading]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[diagnosis]",
          "ObjectType": 0
       },
@@ -38,11 +34,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[doc_conclusion]",
+         "Name": "[dbo].[doctor]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[doctor]",
+         "Name": "[dbo].[DoctorSchedule]",
          "ObjectType": 0
       },
       {
@@ -74,23 +70,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TempDoctorSchedule]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[test]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[test_attachment]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[tests_result]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[treatments]",
+         "Name": "[dbo].[treatment]",
          "ObjectType": 0
       }
    ],

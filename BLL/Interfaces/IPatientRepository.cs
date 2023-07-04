@@ -23,7 +23,7 @@ namespace BLL.Interfaces
 
         AuthResponse UserLogin(UserLoginDTO patient);
 
-        Task UpdateAsync(Patient patient);
+        Task UpdateAsync(UpdatePatientDTO patient);
         Task DeleteAsync(int id);
     
 

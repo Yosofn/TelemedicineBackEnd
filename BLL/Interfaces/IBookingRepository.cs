@@ -10,6 +10,7 @@ namespace BLL.Interfaces
     {
          Task<List<string>> GetAvailableDays(int doctorId);
 
+        Task<List<TimeSpan?>> GetAvailableAppointments(int scheduleId);
 
     }
 }

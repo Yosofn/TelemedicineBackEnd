@@ -14,18 +14,20 @@ namespace DAL.Entities
         [Key]
         [Column("diagnosis_Id")]
         public int DiagnosisId { get; set; }
-        [Column("diagnosis", TypeName = "image")]
+        [Column("Diagnosis", TypeName = "image")]
         public byte[] Diagnosis1 { get; set; }
         [Column("patient_Id")]
         public int? PatientId { get; set; }
         [Column("record_Id")]
         public int? RecordId { get; set; }
+        [Column("doc_Id")]
+        public int? DocId { get; set; }
 
+        [ForeignKey("DocId")]
+        [InverseProperty("Diagnoses")]
+        public virtual Doctor Doc { get; set; }
         [ForeignKey("PatientId")]
         [InverseProperty("Diagnoses")]
         public virtual Patient Patient { get; set; }
-        [ForeignKey("RecordId")]
-        [InverseProperty("Diagnoses")]
-        public virtual MedicalRecord Record { get; set; }
     }
 }

@@ -20,9 +20,6 @@ namespace DAL.DTOS.RequestDTO
         [Unicode(false)]
         public string? Education { get; set; }
 
-        [Column("profile_picture", TypeName = "image")]
-        public byte[]? ProfilePicture { get; set; }
-
         [Required]
         [Column("experience", TypeName = "text")]
         public string? Experience { get; set; }

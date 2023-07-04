@@ -14,14 +14,12 @@ namespace DAL.Entities
     {
         public MedicalDevice()
         {
-            DeviceReadings = new HashSet<DeviceReading>();
+            Reports = new HashSet<Report>();
         }
 
         [Key]
         [Column("device_number")]
         public int DeviceNumber { get; set; }
-        [Column("date")]
-        public DateTime? Date { get; set; }
         [Required]
         [Column("username")]
         [StringLength(45)]
@@ -37,7 +35,7 @@ namespace DAL.Entities
         [Unicode(false)]
         public string DeviceName { get; set; }
 
-        [InverseProperty("Device")]
-        public virtual ICollection<DeviceReading> DeviceReadings { get; set; }
+        [InverseProperty("DeviceNumberNavigation")]
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

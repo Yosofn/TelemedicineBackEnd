@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Entities
 {
-    [Table("treatments")]
+    [Table("treatment")]
     public partial class Treatment
     {
         [Key]
@@ -20,12 +20,14 @@ namespace DAL.Entities
         public int? PatientId { get; set; }
         [Column("record_Id")]
         public int? RecordId { get; set; }
+        [Column("doc_Id")]
+        public int? DocId { get; set; }
 
+        [ForeignKey("DocId")]
+        [InverseProperty("Treatments")]
+        public virtual Doctor Doc { get; set; }
         [ForeignKey("PatientId")]
         [InverseProperty("Treatments")]
         public virtual Patient Patient { get; set; }
-        [ForeignKey("RecordId")]
-        [InverseProperty("Treatments")]
-        public virtual MedicalRecord Record { get; set; }
     }
 }

@@ -36,7 +36,8 @@ namespace BLL.Repositories
                 Report report = new Report()
                 {
                     PatientId = currentUser.Id,
-                    Report1 = quickregister.Report
+                    Report1 = quickregister.Report,
+                    DeviceNumber= quickregister.DeviceNumber
 
                 };
 

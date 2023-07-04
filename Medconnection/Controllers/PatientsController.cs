@@ -54,15 +54,13 @@ namespace Medconnection.Controllers
      
         // PUT: api/Patients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        [HttpPut("updatePatientInformation")]
+        public async Task<IActionResult> PutPatient( UpdatePatientDTO patient)
         {
-            if (id != patient.Id)
-            {
-                return BadRequest();
-            }
+
+       
             await _patientRepository.UpdateAsync(patient);
-            return NoContent();
+            return Ok();
         }
 
     //    POST: api/Patients

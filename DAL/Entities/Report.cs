@@ -19,7 +19,17 @@ namespace DAL.Entities
         public int? PatientId { get; set; }
         [Column("record_Id")]
         public int? RecordId { get; set; }
+        [Column("device_number")]
+        public int? DeviceNumber { get; set; }
+        [Column("doc_id")]
+        public int? DocId { get; set; }
 
+        [ForeignKey("DeviceNumber")]
+        [InverseProperty("Reports")]
+        public virtual MedicalDevice DeviceNumberNavigation { get; set; }
+        [ForeignKey("DocId")]
+        [InverseProperty("Reports")]
+        public virtual Doctor Doc { get; set; }
         [ForeignKey("PatientId")]
         [InverseProperty("Reports")]
         public virtual Patient Patient { get; set; }
