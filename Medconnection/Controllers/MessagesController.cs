@@ -47,8 +47,9 @@ namespace Medconnection.Controllers
 
             await _context.SaveChangesAsync();
             // Trigger the SendMessage method in the SignalR Hub
+       //     await _hubContext.Clients.All.SendAsync("ReceiveMessage", newMessage.ReceiverId, newMessage.Content);
 
-            await _hubContext.Clients.All.SendAsync("SendMessage", newMessage.Content, newMessage.SenderId);
+          await _hubContext.Clients.All.SendAsync("SendMessage", newMessage.SenderId, newMessage.Content);
 
             return Ok();
         }

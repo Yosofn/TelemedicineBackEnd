@@ -65,18 +65,19 @@ namespace Medconnection.Controllers
                 PatientName= patient?.Fname,
                 DoctorName= doctor?.Fname,
                 Price= (int?)scheduale?.Price,
-                AppointmentDate = appointment.AppointmentDate,
-                ReservationDate = appointment.ReservationDate,
+                AppointmentDate = (DateTime)(scheduale?.Date),
+                ReservationDate = DateTime.Now,
                 Start = appointment.Start,
                 EndTime = appointment.EndTime,
-                Place = appointment.Place,
+                Place = scheduale?.Place,
                 Status = appointment.Status,
                 BookingReceipt = appointment.BookingReceipt,
                 SchedualeId = appointment.SchedualeId,
                 DocId = appointment.DocId,
-                PatientPhoto = patient.ProfilePicture,
-                DoctorPhoto = doctor.ProfilePicture,
-                PatientId= appointment.PatientId,
+                PatientPhoto = patient?.ProfilePicture,
+                DoctorPhoto = doctor?.ProfilePicture,
+                PatientId= appointment.PatientId
+                
            };
 
             _context.Appointments.Add(newAppointment);

@@ -42,25 +42,6 @@ namespace Medconnection.Controllers
                         {
                             return NotFound();
                         }
-                        //var patientDTO = _mapper.Map<PatientDTO>(patient);
-                        //Patient patient1 = new Patient()
-                        //{
-                        //    Password = patientDTO.Password,
-                        //    Username = patientDTO.Username,
-                        //    Fname = patientDTO.Username,
-                        //    Lname = patientDTO.Username,
-                        //    NationalId = patientDTO.NationalId,
-                        //    ProfileStatus = patientDTO.ProfileStatus,
-                        //    Age = patientDTO.Age,
-                        //    Address = patientDTO.Address,
-                        //    Height = patientDTO.Height,
-                        //    Weight = patientDTO.Weight,
-                        //    Job = patientDTO.Job,
-                        //    Phone = patientDTO.Phone,
-                        //    Gender = patientDTO.Gender,
-                        //    MaritalStatus = patientDTO.MaritalStatus,
-
-                        //};
                         return Ok(patient);
                     case 2:
                         // Doctor

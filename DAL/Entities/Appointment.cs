@@ -33,8 +33,6 @@ namespace DAL.Entities
         public int PatientId { get; set; }
         [Column("status")]
         public int Status { get; set; }
-        [Column("booking_receipt")]
-        public string BookingReceipt { get; set; }
         [Column("followup_id")]
         public int? FollowupId { get; set; }
         [Column("admin_id")]
@@ -50,14 +48,16 @@ namespace DAL.Entities
         [Column("doctor_photo", TypeName = "image")]
         public byte[] DoctorPhoto { get; set; }
         [Column("patientName")]
-        [StringLength(1)]
+        [StringLength(20)]
         [Unicode(false)]
         public string PatientName { get; set; }
         [Column("doctorName")]
-        [StringLength(1)]
+        [StringLength(20)]
         [Unicode(false)]
         public string DoctorName { get; set; }
         public int? Price { get; set; }
+        [Column("booking_receipt", TypeName = "image")]
+        public byte[] BookingReceipt { get; set; }
 
         [ForeignKey("AdminId")]
         [InverseProperty("Appointments")]

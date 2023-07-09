@@ -1,17 +1,24 @@
-﻿using DAL.DTOS.RequestDTO;
+﻿using DAL.Context;
+using DAL.DTOS.RequestDTO;
 using DAL.Entities;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text.RegularExpressions;
 
 namespace Medconnection.Hubs
 {
+
+
     public class ChatHub : Hub
     {
-        public ChatHub()
+        private readonly TelemedicineContext _context;
+
+        public ChatHub(TelemedicineContext context)
         {
-         
+            _context = context;
+
         }
 
 
@@ -44,7 +51,12 @@ namespace Medconnection.Hubs
 
             await Clients.All.SendAsync("ReceiveMessage", newMessage.ReceiverId, newMessage.Content);
 
+            // Add the new message to the context
 
+            _context.Messages.Add(newMessage);
+            // Save changes to the database
+
+            await _context.SaveChangesAsync();
         }
         public async Task JoinGroup(int patientId, int doctorId)
         {

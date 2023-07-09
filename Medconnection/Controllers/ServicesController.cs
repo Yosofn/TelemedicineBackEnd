@@ -126,7 +126,7 @@ namespace Medconnection.Controllers
             _context.Services.Add(MappedService);
             await _context.SaveChangesAsync();
 
-            return service;
+            return Ok(service);
         }
 
         // DELETE: api/Services/5

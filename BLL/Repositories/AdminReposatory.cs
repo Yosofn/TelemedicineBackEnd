@@ -29,8 +29,8 @@ namespace BLL.Repositories
 
         public ApprovedResponse ApproveDoctor(ApproveDoctorDTO approveDoctor)
         {
-            var doctor = _context.Doctors.Find(approveDoctor.DocId);
-            var patient = _context.Patients.FirstOrDefault(p => p.Username == approveDoctor.Username);
+            var doctor = _context.Doctors.FirstOrDefault(p => p.Id == approveDoctor.DocId);
+            //var patient = _context.Patients.FirstOrDefault(p => p.Username == approveDoctor.Username);
             doctor.AdminId= approveDoctor.AdminId;
             doctor.DoctorStatus = approveDoctor.DoctorStatus;
 
@@ -38,7 +38,7 @@ namespace BLL.Repositories
 
            if (doctor.DoctorStatus == 2)
             {
-                patient.ProfileStatus = 2;
+                //patient.ProfileStatus = 2;
                 doctor.ProfileStatus = 2;
                 _context.SaveChanges();
                 return new ApprovedResponse { Accepted = true };
